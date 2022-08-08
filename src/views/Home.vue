@@ -14,7 +14,7 @@
 import ListNameInsertFieldC from '../components/ListNameInsertFieldC.vue'
 
 export default {
-  name: 'App',
+  name: 'Home',
   components: {
     ListNameInsertFieldC
   },
