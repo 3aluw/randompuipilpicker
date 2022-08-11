@@ -1,11 +1,27 @@
 <template>
   <div id="nav">
     <router-link to="/">Home</router-link> |
-    <router-link to="/newList">Insert Names</router-link>
+    <router-link to="/newList" >Insert Names</router-link>
   </div>
-  <router-view/>
-</template>
 
+  <router-view @inserted-names-array="nameslister" />
+
+</template>
+<script>
+export default {
+
+  data(){
+    return{namesArray:[]}
+    
+  },
+  methods:{
+    nameslister(e){
+      console.log(e)
+      this.namesArray = e;
+    }
+  }
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

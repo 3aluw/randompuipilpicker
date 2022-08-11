@@ -1,5 +1,5 @@
 <template>
-  <ListNameInsertFieldC @NewArrCreator="newarrcreator"/>
+
   <div class="lists-container">
 <div class="saved-list" v-for="(list, index) in lists" :key="list.number" @click="listExtrcat(index)"> 
  {{list.number}}
@@ -11,13 +11,11 @@
 </template>
 
 <script>
-import ListNameInsertFieldC from '../components/ListNameInsertFieldC.vue'
+
 
 export default {
   name: 'Home',
-  components: {
-    ListNameInsertFieldC
-  },
+   emits: ["inserted-names-array"],
 
   data(){
     return{
@@ -68,16 +66,6 @@ console.log(this.currentObj)
 },
 saver(){
   this.lists.splice(this.currentObjIndex ,1,this.currentObj);
-  
-},
-newarrcreator(name){
-  this.lists.push({
-    number : name,
-    arr: this.arr
-  });
-
- this.currentObj = this.lists[this.lists.length-1]
-
   
 }
 }
