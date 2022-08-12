@@ -4,20 +4,26 @@
     <router-link to="/newList" >Insert Names</router-link>
   </div>
 
-  <router-view @inserted-names-array="nameslister" />
+  <router-view @new-list="nameslister" :newObj = "newObj"></router-view>
+
+
+ 
 
 </template>
 <script>
 export default {
 
   data(){
-    return{namesArray:[]}
+    return{
+      newObj :{},
+    }
     
   },
   methods:{
     nameslister(e){
-      console.log(e)
-      this.namesArray = e;
+      
+      this.newObj = e;
+      
     }
   }
 }

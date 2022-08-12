@@ -8,6 +8,7 @@
 <button @click="saver">Save List</button>
 <h1>{{pickedP}}</h1>
 <h2>reamaining students : {{currentObj.arr.length}}</h2>
+
 </template>
 
 <script>
@@ -15,7 +16,10 @@
 
 export default {
   name: 'Home',
-   emits: ["inserted-names-array"],
+  props:{
+    newObj:Object,
+  },
+   emits: ["new-list"],
 
   data(){
     return{
@@ -41,6 +45,7 @@ export default {
   },
    beforeMount() {
    if(this.currentObj.number === null){ this.currentObj = this.lists[0]}
+   console.log(this.newObj)
   },
   methods:{
     listExtrcat(index){

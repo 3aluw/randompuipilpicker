@@ -14,7 +14,7 @@
 
 export default {
   name: 'Home',
-   emits: ["inserted-names-array"],
+   emits: ["new-list"],
 
   data(){
     return{
@@ -22,18 +22,26 @@ export default {
       newList:{
         listName: null,
         names: null,
-        arr:[]
+        
       }
     }
   },
 
 methods:{
-  listCreatorEmitter(e){
-  if(this.newList.names==false || this.newList.listName == false){
-   this.error = true
+  listCreatorEmitter(e){ 
+    
+  if( !Boolean(this.newList.names)|| !Boolean(this.newList.listName)){
+   this.error = true;
+  
+   
   }else{
+
      this.newList.names = this.newList.names.trim().split(/\s*,\s*/);
-    console.log( this.newList)
+    
+    this.$emit("new-list", this.newList);
+  
+  
+  
   }
   },
 
