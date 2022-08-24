@@ -4,7 +4,7 @@
     <router-link to="/newList" >Insert Names</router-link>
   </div>
 
-  <router-view @new-list="nameslister" :newObj = "newObj"></router-view>
+  <router-view @new-list="nameslister" :newObj = "newObj? newObj: {}"></router-view>
 
 
  
@@ -15,15 +15,16 @@ export default {
 
   data(){
     return{
-      newObj :{},
+      newObj :undefined,
     }
     
   },
   methods:{
     nameslister(e){
+     
       
       this.newObj = e;
-      
+     
     }
   }
 }

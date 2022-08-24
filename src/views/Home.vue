@@ -1,13 +1,13 @@
 <template>
 
   <div class="lists-container">
-<div class="saved-list" v-for="(list, index) in lists" :key="list.number" @click="listExtrcat(index)"> 
- {{list.number}}
+<div class="saved-list" v-for="(list, index) in lists" :key="list.listName" @click="listExtrcat(index)"> 
+ {{list.listName}}
 </div></div>
 <button @click="studentSelector">Pick someone</button>
 <button @click="saver">Save List</button>
 <h1>{{pickedP}}</h1>
-<h2>reamaining students : {{currentObj.arr.length}}</h2>
+<h2>reamaining students : {{currentObj.unusedNames.length}}</h2>
 
 </template>
 
@@ -17,25 +17,23 @@
 export default {
   name: 'Home',
   props:{
-    newObj:Object,
+    newObj: Object,
   },
    emits: ["new-list"],
 
   data(){
     return{
-        arr:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
-    
-      names:["تجرونة بشرى ","باباوموسى هدى","التومي مارية","بوحديبه غنية","موسى وعلي باية","بابنات مروة","شقبقب فاطمة الزهراء","أويابة سارة","قزريط أسماء","بوسنان سعاد","بوكرموش حفصة","الشيخ صالح فطيمة بنت","حمدي بابا مريم","بوكرموش سيرين","حجاج إسراء","امسيرد ضحى","ليسير بشرى","البدري رحمة","ارفيس فردوس","الشيخ صالح مارية","عوف نسيمة بنت","بازين سلسبيل","بوحديبه خديجة","اويابه بشرى","بابنات صفاء","عطفاوي مامه بنت","باباواسماعيل ملاك","طباخ زينب","قزريط إكرام","موسى وعلي زينب","أوزايد مامة لالة"]
-     ,
      pickedP: null,
       currentObj:{
-      number:null,
-      arr: null
+      listName:null,
+      names:null,
+      unusedNames: null,
     },
       currentObjIndex : 0,
     lists:[{
-      number:"demo",
-      arr: [0,1,2,3,4,5,6]
+      listName:"demo",
+      names:["Alexcia","Daja","Shakira","Eleanor","Josefina","Kalli","Adrian","Nallely","Deondre","Elian","Aliya","Britney","Ricky","Annika","Kinsley","Sidney","Oliver","Quinn","Raymond","Jerimiah","Maya","Nathan","Antonio","Simone","Amira","Tara","Gerald","Devon","Brynn","Ruth"],
+       unusedNames: ["Shakira","Eleanor","Josefina","Kalli","Adrian","Nallely",]
     },
  
     
@@ -43,28 +41,32 @@ export default {
     
     }
   },
+
    beforeMount() {
-   if(this.currentObj.number === null){ this.currentObj = this.lists[0]}
-   console.log(this.newObj)
-  },
+  console.log(this.lists)
+   if(this.currentObj.listName === null){ this.currentObj = this.lists[0]}; 
+   if(Object.keys(this.newObj).length !== 0) {this.lists.push(this.newObj);
+   }
+  }, 
+   //created(){ console.log(this.lists)},
   methods:{
     listExtrcat(index){
-this.currentObj.number = this.lists[index].number;
-this.currentObj.arr = this.lists[index].arr;
+this.currentObj.listName = this.lists[index].listName;
+this.currentObj.unusedNames = this.lists[index].unusedNames;
 this.currentObjIndex = index;
-console.log(this.currentObj)
+
 },
  studentSelector(){
 
 
 
-  let pickedN = Math.floor(Math.random()*this.currentObj.arr.length);
-  this.pickedP = this.names[this.currentObj.arr[pickedN]]
-  this.currentObj.arr.splice(pickedN,1);
+  let pickedN = Math.floor(Math.random()*this.currentObj.unusedNames.length);
+  this.pickedP = this.currentObj.unusedNames[pickedN]
+  this.currentObj.unusedNames.splice(pickedN,1);
 
-    if( this.currentObj.arr.length === 0){
-      this.currentObj.arr = [...this.arr];
-      console.log(this.arr)
+    if( this.currentObj.unusedNames.length === 0){
+      this.currentObj.unusedNames = [...this.currentObj.names];
+     
       
     }
 
