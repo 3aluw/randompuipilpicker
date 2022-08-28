@@ -43,12 +43,17 @@ export default {
   },
 
    beforeMount() {
-  console.log(this.lists)
    if(this.currentObj.listName === null){ this.currentObj = this.lists[0]}; 
    if(Object.keys(this.newObj).length !== 0) {this.lists.push(this.newObj);
    }
   }, 
-   //created(){ console.log(this.lists)},
+  activated(){
+    console.log(1,this.lists)
+  },
+  deactivated(){
+    console.log(2,this.lists)
+  },
+  
   methods:{
     listExtrcat(index){
 this.currentObj.listName = this.lists[index].listName;

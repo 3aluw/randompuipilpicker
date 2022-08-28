@@ -1,13 +1,17 @@
 <template>
   <div id="nav">
     <router-link to="/">Home</router-link> |
-    <router-link to="/newList" >Insert Names</router-link>
+    <router-link to="/newList" >Create a new list</router-link>
   </div>
+<!--
+  <router-view  @new-list="nameslister" :newObj = "newObj? newObj: {}"></router-view>
 
-  <router-view @new-list="nameslister" :newObj = "newObj? newObj: {}"></router-view>
-
-
- 
+-->
+ <router-view v-slot="{ Component }"  @new-list="nameslister" :newObj = "newObj? newObj: {}">
+  <keep-alive include="Home">
+    <component :is="Component" />
+  </keep-alive>
+</router-view>
 
 </template>
 <script>
@@ -24,7 +28,7 @@ export default {
      
       
       this.newObj = e;
-     
+     console.log("app",e)
     }
   }
 }
