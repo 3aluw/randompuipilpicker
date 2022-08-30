@@ -3,15 +3,15 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/newList" >Create a new list</router-link>
   </div>
-<!--
-  <router-view  @new-list="nameslister" :newObj = "newObj? newObj: {}"></router-view>
 
--->
+  <router-view  @new-list="nameslister" :lists = "lists" @listsUpdate="listsUpdate"></router-view>
+
+<!--
  <router-view v-slot="{ Component }"  @new-list="nameslister" :newObj = "newObj? newObj: {}">
   <keep-alive include="Home">
     <component :is="Component" />
   </keep-alive>
-</router-view>
+</router-view>-->
 
 </template>
 <script>
@@ -19,17 +19,28 @@ export default {
 
   data(){
     return{
-      newObj :undefined,
+      lists:[{
+      listName:"demo",
+      names:["Alexcia","Daja","Shakira","Eleanor","Josefina","Kalli","Adrian","Nallely","Deondre","Elian","Aliya","Britney","Ricky","Annika","Kinsley","Sidney","Oliver","Quinn","Raymond","Jerimiah","Maya","Nathan","Antonio","Simone","Amira","Tara","Gerald","Devon","Brynn","Ruth"],
+       unusedNames: ["Shakira","Eleanor","Josefina","Kalli","Adrian","Nallely",]
+    },
+ 
+    
+    ],
     }
     
   },
   methods:{
-    nameslister(e){
+    nameslister(obj){
      
       
-      this.newObj = e;
-     console.log("app",e)
-    }
+      
+      this.lists.push(obj)
+     
+    },
+    listsUpdate(e){
+      this.lists = e;
+    },
   }
 }
 </script>
