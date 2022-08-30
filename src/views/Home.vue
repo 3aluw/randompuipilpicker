@@ -14,12 +14,13 @@
 <script>
 
 
+
 export default {
   name: 'Home',
   props:{
-    newObj: Object,
+    lists : Object,
   },
-   emits: ["new-list"],
+   emits: ["listsUpdate","new-list"],
 
   data(){
     return{
@@ -30,29 +31,25 @@ export default {
       unusedNames: null,
     },
       currentObjIndex : 0,
-    lists:[{
-      listName:"demo",
-      names:["Alexcia","Daja","Shakira","Eleanor","Josefina","Kalli","Adrian","Nallely","Deondre","Elian","Aliya","Britney","Ricky","Annika","Kinsley","Sidney","Oliver","Quinn","Raymond","Jerimiah","Maya","Nathan","Antonio","Simone","Amira","Tara","Gerald","Devon","Brynn","Ruth"],
-       unusedNames: ["Shakira","Eleanor","Josefina","Kalli","Adrian","Nallely",]
-    },
- 
     
-    ],
     
     }
   },
 
    beforeMount() {
-   if(this.currentObj.listName === null){ this.currentObj = this.lists[0]}; 
-   if(Object.keys(this.newObj).length !== 0) {this.lists.push(this.newObj);
-   }
+   if(this.currentObj.listName === null){ 
+    this.currentObj.listName = this.lists[0].listName;
+this.currentObj.unusedNames = this.lists[0].unusedNames;
+this.currentObj.names = this.lists[0].names;
+this.currentObjIndex = 0;
+   }; 
+   
   }, 
-  activated(){
-    console.log(1,this.lists)
+  unmounted(){
+    this.lists.splice(this.currentObjIndex ,1,this.currentObj);
+    this.$emit("listsUpdate", this.lists)
   },
-  deactivated(){
-    console.log(2,this.lists)
-  },
+  
   
   methods:{
     listExtrcat(index){
@@ -68,8 +65,10 @@ this.currentObjIndex = index;
   let pickedN = Math.floor(Math.random()*this.currentObj.unusedNames.length);
   this.pickedP = this.currentObj.unusedNames[pickedN]
   this.currentObj.unusedNames.splice(pickedN,1);
+console.log(this.currentObj.unusedNames.length,this.lists[0].unusedNames.length)
 
     if( this.currentObj.unusedNames.length === 0){
+      
       this.currentObj.unusedNames = [...this.currentObj.names];
      
       
