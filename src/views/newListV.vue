@@ -1,7 +1,8 @@
 <template>
 <div class="container">
+  <p><strong>Seperate names Using a comma "," or write every name on a new line</strong></p>
 <input type="text" v-model="newList.listName"  placeholder="insert list name" > <br>
-<textarea class="names-input" type="text"  v-model="newList.names" ></textarea>
+<textarea placeholder="insert names seperated" class="names-input" type="text"  v-model="newList.names" ></textarea>
  <button @click="listCreatorEmitter"> Create a new array </button>
  <p v-if="error">please enter a name for your list, and your student's names</p>
  </div>
@@ -35,7 +36,8 @@ methods:{
   
    
   }else{
-     this.newList.names = this.newList.names.trim().split(/\s*,\s*/);
+     this.newList.names = this.newList.names.trim().split(/\s*[,\n]\s*/);
+    
       this.newList.unusedNames = [...this.newList.names]
       
     this.$emit("new-list", this.newList);
