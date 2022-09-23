@@ -40,7 +40,15 @@ export default {
     },
     listsUpdate(e){
       this.lists = e;
+
     },
+  },
+  beforeMount(){
+    if(window.localStorage.getItem("lists")){
+      
+      this.lists = JSON.parse(window.localStorage.getItem("lists"));
+      
+    }
   }
 }
 </script>

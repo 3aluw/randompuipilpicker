@@ -5,7 +5,7 @@
  {{list.listName}}
 </div></div>
 <button @click="studentSelector">Pick someone</button>
-<button @click="saver">Save List</button>
+<button @click="saver">Save Lists </button>
 <h1>{{pickedP}}</h1>
 <h2>reamaining students : {{currentObj.unusedNames.length}}</h2>
 
@@ -36,7 +36,8 @@ export default {
     }
   },
 
-   beforeMount() {
+  beforeMount() {
+
    if(this.currentObj.listName === null){ 
     this.currentObj.listName = this.lists[0].listName;
 this.currentObj.unusedNames = this.lists[0].unusedNames;
@@ -53,8 +54,10 @@ this.currentObjIndex = 0;
   
   methods:{
     listExtrcat(index){
+     
 this.currentObj.listName = this.lists[index].listName;
 this.currentObj.unusedNames = this.lists[index].unusedNames;
+this.currentObj.names = this.lists[index].names;
 this.currentObjIndex = index;
 
 },
@@ -65,7 +68,7 @@ this.currentObjIndex = index;
   let pickedN = Math.floor(Math.random()*this.currentObj.unusedNames.length);
   this.pickedP = this.currentObj.unusedNames[pickedN]
   this.currentObj.unusedNames.splice(pickedN,1);
-console.log(this.currentObj.unusedNames.length,this.lists[0].unusedNames.length)
+
 
     if( this.currentObj.unusedNames.length === 0){
       
@@ -77,6 +80,8 @@ console.log(this.currentObj.unusedNames.length,this.lists[0].unusedNames.length)
 },
 saver(){
   this.lists.splice(this.currentObjIndex ,1,this.currentObj);
+  let listsString = JSON.stringify(this.lists);
+  localStorage.setItem("lists",listsString);
   
 }
 }
