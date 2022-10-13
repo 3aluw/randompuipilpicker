@@ -3,12 +3,17 @@
   <div class="lists-container">
 <div class="saved-list" v-for="(list, index) in lists" :key="list.listName" @click="listExtrcat(index)"> 
  {{list.listName}}
+ <ul class="list-item-hover">
+  reamaining : {{list.unusedNames.length }}/ {{list.names.length}}
+  <li v-for="name in list.unusedNames">{{name}}</li></ul>
 </div></div>
 <button @click="studentSelector">Pick someone</button>
-<button @click="saver">Save Lists </button>
-<h1>{{pickedP}}</h1>
-<h2>reamaining students : {{currentObj.unusedNames.length}}</h2>
 
+<h1 class="picked">{{pickedP}}</h1>
+<h2>reamaining students : {{currentObj.unusedNames.length}}</h2>
+<button @click="saver">Save Lists </button>
+<button  @click="deleter" :class="{ danger : deleteMode }">Delete a list</button>
+<button @click="reseter">Reset default</button>
 </template>
 
 <script>
@@ -24,13 +29,16 @@ export default {
 
   data(){
     return{
-     pickedP: null,
+     
       currentObj:{
       listName:null,
       names:null,
       unusedNames: null,
     },
+      pickedP: null,
       currentObjIndex : 0,
+      deleteMode : false,
+      listsToDelete : [], 
     
     
     }
@@ -54,12 +62,16 @@ this.currentObjIndex = 0;
   
   methods:{
     listExtrcat(index){
-     
+      console.log(event)
+     if(!this.deleteMode){
 this.currentObj.listName = this.lists[index].listName;
 this.currentObj.unusedNames = this.lists[index].unusedNames;
 this.currentObj.names = this.lists[index].names;
 this.currentObjIndex = index;
-
+     }
+     else{
+      !this.listsToDelete.includes(index) ? this.listsToDelete.push(index): this.listsToDelete.splice(this.listsToDelete.indexOf(index) < 0 ? this.listsToDelete.length : this.listsToDelete.indexOf(index) ,1);
+     }
 },
  studentSelector(){
 
@@ -78,13 +90,24 @@ this.currentObjIndex = index;
     }
 
 },
+deleter(){
+this.deleteMode = true;
+
+},
 saver(){
   this.lists.splice(this.currentObjIndex ,1,this.currentObj);
   let listsString = JSON.stringify(this.lists);
   localStorage.setItem("lists",listsString);
   
+},
+reseter(){
+  console.log(this.lists[0])
+ 
+ localStorage.removeItem("lists");
+ document.location.reload();
 }
-}
+},
+
 
 }
 </script>
@@ -127,9 +150,11 @@ input{
 .lists-container{
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .saved-list{
+  position: relative;
   margin: 0.5rem;
  min-height: 8rem;
  min-width:10rem ;
@@ -141,5 +166,28 @@ input{
   cursor: pointer;  
   color: #845EC2;
   font-size: 3rem;
+}
+.list-item-hover{
+  padding: 0.5rem;
+  border-radius: 5px;
+ display: none;
+  position: absolute;
+  bottom: -60%;
+  right: -40%;
+  text-align: center;
+  border: 1px solid black;
+  list-style: none;
+  font-size: 1rem;
+  color: black;
+  background-color: rgb(248, 248, 66);
+  opacity: 0.8;
+}
+.saved-list:hover > .list-item-hover{
+  display: block;
+}
+.danger{
+  background-color: red;
+  color: white;
+  border: none;
 }
 </style>

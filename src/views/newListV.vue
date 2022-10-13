@@ -4,7 +4,7 @@
 <input type="text" v-model="newList.listName"  placeholder="insert list name" maxlength="12"> <br>
 <textarea placeholder="insert names seperated" class="names-input" type="text"  v-model="newList.names" ></textarea>
  <button @click="listCreatorEmitter"> Create a new List </button>
- <p v-if="error">please enter a name for your list, and your student's names</p>
+ <p v-if="error" class="error-message"><strong>ERROR! :</strong> enter a name for your list, and your student's names</p>
  </div>
 </template>
 
@@ -33,7 +33,7 @@ methods:{
     
   if( !Boolean(this.newList.names)|| !Boolean(this.newList.listName)){
    this.error = true;
-  
+  setTimeout(()=>this.error =false ,5000)
    
   }else{
      this.newList.names = this.newList.names.trim().split(/\s*[,\n]\s*/);
@@ -41,7 +41,7 @@ methods:{
       this.newList.unusedNames = [...this.newList.names]
       
     this.$emit("new-list", this.newList);
-  
+  this.newList.names = this.newList.listName = "";
   
   
   }
@@ -66,5 +66,17 @@ min-width: 50vw;
 text-align: left;
 padding: 0.8rem;
   }
-
+.error-message{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: rgb(155, 77, 77);
+  color: white;
+  padding: 1rem;
+  padding-inline: 2rem;
+}
+.error-message strong{
+  color: rgb(238, 211, 211);
+  font-weight: 900;
+}
   </style>
