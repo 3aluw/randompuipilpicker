@@ -4,7 +4,7 @@
     <router-link to="/newList" >Create a new list</router-link>
   </div>
 
-  <router-view  @new-list="nameslister" :lists = "lists" @listsUpdate="listsUpdate"></router-view>
+  <router-view  @new-list="nameslister" :lists = "lists" @listsUpdate="listsUpdate" @delete="deleter"></router-view>
 
 <!--
  <router-view v-slot="{ Component }"  @new-list="nameslister" :newObj = "newObj? newObj: {}">
@@ -42,6 +42,9 @@ export default {
       this.lists = e;
 
     },
+    deleter(e){
+      e.forEach((e)=>{this.lists.splice(e,1)})
+    }
   },
   beforeMount(){
     if(window.localStorage.getItem("lists")){

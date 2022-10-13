@@ -1,7 +1,7 @@
 <template>
 
   <div class="lists-container">
-<div class="saved-list" v-for="(list, index) in lists" :key="list.listName" @click="listExtrcat(index)"> 
+<div class="saved-list" v-for="(list, index) in lists" :key="list.listName" @click="listExtrcat(index)" :data-index=index> 
  {{list.listName}}
  <ul class="list-item-hover">
   reamaining : {{list.unusedNames.length }}/ {{list.names.length}}
@@ -11,9 +11,17 @@
 
 <h1 class="picked">{{pickedP}}</h1>
 <h2>reamaining students : {{currentObj.unusedNames.length}}</h2>
+
+<div class="memory-buttons" v-show="!deleteMode">
 <button @click="saver">Save Lists </button>
-<button  @click="deleter" :class="{ danger : deleteMode }">Delete a list</button>
+<button  @click="this.deleteMode = true" >Delete a list</button>
 <button @click="reseter">Reset default</button>
+</div>
+
+<div class="delete-buttons" v-show="deleteMode">
+  <button @click="deleter('delete')" class="danger">Delete selected lists</button>
+  <button @click="deleter('cancel')"> Cancel</button>
+</div>
 </template>
 
 <script>
@@ -25,7 +33,7 @@ export default {
   props:{
     lists : Object,
   },
-   emits: ["listsUpdate","new-list"],
+   emits: ["listsUpdate","new-list","delete"],
 
   data(){
     return{
@@ -62,7 +70,7 @@ this.currentObjIndex = 0;
   
   methods:{
     listExtrcat(index){
-      console.log(event)
+      
      if(!this.deleteMode){
 this.currentObj.listName = this.lists[index].listName;
 this.currentObj.unusedNames = this.lists[index].unusedNames;
@@ -70,6 +78,8 @@ this.currentObj.names = this.lists[index].names;
 this.currentObjIndex = index;
      }
      else{
+      event.target.classList.toggle("list-to-delete")
+      
       !this.listsToDelete.includes(index) ? this.listsToDelete.push(index): this.listsToDelete.splice(this.listsToDelete.indexOf(index) < 0 ? this.listsToDelete.length : this.listsToDelete.indexOf(index) ,1);
      }
 },
@@ -90,8 +100,14 @@ this.currentObjIndex = index;
     }
 
 },
-deleter(){
-this.deleteMode = true;
+deleter(arg){
+  const lists = document.querySelectorAll(".list-to-delete")
+  if(arg == "delete"){
+    this.$emit("delete",this.listsToDelete)
+  }
+  else{ lists.forEach(e=>{e.classList.remove("list-to-delete")})
+  this.deleteMode = false
+}
 
 },
 saver(){
@@ -181,6 +197,7 @@ input{
   color: black;
   background-color: rgb(248, 248, 66);
   opacity: 0.8;
+  pointer-events: none;
 }
 .saved-list:hover > .list-item-hover{
   display: block;
@@ -188,6 +205,11 @@ input{
 .danger{
   background-color: red;
   color: white;
-  border: none;
+  border-color: red ;
+}
+.list-to-delete{
+  opacity: 0.5;
+  background-color: rgba(218, 134, 134, 0.5);
+  color: rgb(126, 118, 118);
 }
 </style>
