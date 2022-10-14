@@ -4,13 +4,15 @@
 <div class="saved-list" v-for="(list, index) in lists" :key="list.listName" @click="listExtrcat(index)" :data-index=index> 
  {{list.listName}}
  <ul class="list-item-hover">
-  reamaining : {{list.unusedNames.length }}/ {{list.names.length}}
+  reamaining : {{list.unusedNames.length }}/ {{list.names.length}} 
   <li v-for="name in list.unusedNames">{{name}}</li></ul>
-</div></div>
+</div>
+<p class="empty-list-alert" v-show="lists.length == 0">No lists available, create a new list <RouterLink class="link" to="/newList"> here</RouterLink></p> 
+</div>
 <button @click="studentSelector">Pick someone</button>
 
 <h1 class="picked">{{pickedP}}</h1>
-<h2>reamaining students : {{currentObj.unusedNames.length}}</h2>
+<h2>reamaining : {{currentObj.unusedNames.length}}</h2>
 
 <div class="memory-buttons" v-show="!deleteMode">
 <button @click="saver">Save Lists </button>
@@ -53,7 +55,7 @@ export default {
   },
 
   beforeMount() {
-
+  
    if(this.currentObj.listName === null){ 
     this.currentObj.listName = this.lists[0].listName;
 this.currentObj.unusedNames = this.lists[0].unusedNames;
@@ -62,10 +64,7 @@ this.currentObjIndex = 0;
    }; 
    
   }, 
-  unmounted(){
-    this.lists.splice(this.currentObjIndex ,1,this.currentObj);
-    this.$emit("listsUpdate", this.lists)
-  },
+
   
   
   methods:{
@@ -73,8 +72,8 @@ this.currentObjIndex = 0;
       
      if(!this.deleteMode){
 this.currentObj.listName = this.lists[index].listName;
-this.currentObj.unusedNames = this.lists[index].unusedNames;
-this.currentObj.names = this.lists[index].names;
+this.currentObj.unusedNames = [...this.lists[index].unusedNames];
+this.currentObj.names = [...this.lists[index].names];
 this.currentObjIndex = index;
      }
      else{
@@ -85,6 +84,9 @@ this.currentObjIndex = index;
 },
  studentSelector(){
 
+
+  this.lists.splice(this.currentObjIndex ,1, JSON.parse(JSON.stringify(this.currentObj)));
+    this.$emit("listsUpdate", this.lists)
 
 
   let pickedN = Math.floor(Math.random()*this.currentObj.unusedNames.length);
@@ -103,7 +105,8 @@ this.currentObjIndex = index;
 deleter(arg){
   const lists = document.querySelectorAll(".list-to-delete")
   if(arg == "delete"){
-    this.$emit("delete",this.listsToDelete)
+    this.$emit("delete",this.listsToDelete);
+    
   }
   else{ lists.forEach(e=>{e.classList.remove("list-to-delete")})
   this.deleteMode = false
@@ -117,7 +120,7 @@ saver(){
   
 },
 reseter(){
-  console.log(this.lists[0])
+ 
  
  localStorage.removeItem("lists");
  document.location.reload();
@@ -211,5 +214,12 @@ input{
   opacity: 0.5;
   background-color: rgba(218, 134, 134, 0.5);
   color: rgb(126, 118, 118);
+}
+.empty-list-alert{
+  font-size: 1.5rem;
+  margin: 2rem auto;
+}
+.link{
+  color: #00C9A7;
 }
 </style>

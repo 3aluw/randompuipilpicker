@@ -6,53 +6,39 @@
 
   <router-view  @new-list="nameslister" :lists = "lists" @listsUpdate="listsUpdate" @delete="deleter"></router-view>
 
-<!--
- <router-view v-slot="{ Component }"  @new-list="nameslister" :newObj = "newObj? newObj: {}">
-  <keep-alive include="Home">
-    <component :is="Component" />
-  </keep-alive>
-</router-view>-->
+
 
 </template>
 <script>
+import LandingText from './components/BlinkingText.vue';
 export default {
-
-  data(){
-    return{
-      lists:[{
-      listName:"demo",
-      names:["Alexcia","Daja","Shakira","Eleanor","Josefina","Kalli","Adrian","Nallely","Deondre","Elian","Aliya","Britney","Ricky","Annika","Kinsley","Sidney","Oliver","Quinn","Raymond","Jerimiah","Maya","Nathan","Antonio","Simone","Amira","Tara","Gerald","Devon","Brynn","Ruth"],
-       unusedNames: ["Shakira","Eleanor","Josefina","Kalli","Adrian","Nallely",]
+    data() {
+        return {
+            lists: [{
+                    listName: "demo",
+                    names: ["Alexcia", "Daja", "Shakira", "Eleanor", "Josefina", "Kalli", "Adrian", "Nallely", "Deondre", "Elian", "Aliya", "Britney", "Ricky", "Annika", "Kinsley", "Sidney", "Oliver", "Quinn", "Raymond", "Jerimiah", "Maya", "Nathan", "Antonio", "Simone", "Amira", "Tara", "Gerald", "Devon", "Brynn", "Ruth"],
+                    unusedNames: ["Shakira", "Eleanor", "Josefina", "Kalli", "Adrian", "Nallely",]
+                },
+            ],
+        };
     },
- 
-    
-    ],
-    }
-    
-  },
-  methods:{
-    nameslister(obj){
-     
-      
-      
-      this.lists.push(obj)
-     
+    methods: {
+        nameslister(obj) {
+            this.lists.push(obj);
+        },
+        listsUpdate(e) {
+            this.lists = e;
+        },
+        deleter(e) {
+            e.forEach((e) => { this.lists.splice(e, 1); });
+        }
     },
-    listsUpdate(e){
-      this.lists = e;
-
+    beforeMount() {
+        if (window.localStorage.getItem("lists")) {
+            this.lists = JSON.parse(window.localStorage.getItem("lists"));
+        }
     },
-    deleter(e){
-      e.forEach((e)=>{this.lists.splice(e,1)})
-    }
-  },
-  beforeMount(){
-    if(window.localStorage.getItem("lists")){
-      
-      this.lists = JSON.parse(window.localStorage.getItem("lists"));
-      
-    }
-  }
+    components: { LandingText }
 }
 </script>
 <style>

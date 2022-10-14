@@ -38,9 +38,10 @@ methods:{
   }else{
      this.newList.names = this.newList.names.trim().split(/\s*[,\n]\s*/);
     
-      this.newList.unusedNames = [...this.newList.names]
-      
-    this.$emit("new-list", this.newList);
+      this.newList.unusedNames = [...this.newList.names];
+      let newListCopy = JSON.parse(JSON.stringify(this.newList))
+      console.log(newListCopy)
+    this.$emit("new-list", newListCopy);
   this.newList.names = this.newList.listName = "";
   
   
