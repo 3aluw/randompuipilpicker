@@ -1,7 +1,8 @@
 <template>
   <div id="nav">
     <router-link to="/">Home</router-link> |
-    <router-link to="/newList" >Create a new list</router-link>
+    <router-link to="/newList" >Create a new list</router-link> |
+   <router-link to="/userguide">  user guide</router-link> 
   </div>
 
   <router-view  @new-list="nameslister" :lists = "lists" @listsUpdate="listsUpdate" @delete="deleter"></router-view>
@@ -42,6 +43,9 @@ export default {
 }
 </script>
 <style>
+body{
+  margin: 0;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

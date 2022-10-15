@@ -1,15 +1,16 @@
 <template>
+<p class="empty-list-alert" v-show="lists.length == 0">No lists available, create a new list <RouterLink class="link" to="/newList"> here</RouterLink></p> 
 
-  <div class="lists-container">
+  <div class="lists-container" v-if ="currentObj">
 <div class="saved-list" v-for="(list, index) in lists" :key="list.listName" @click="listExtrcat(index)" :data-index=index> 
  {{list.listName}}
  <ul class="list-item-hover">
-  reamaining : {{list.unusedNames.length }}/ {{list.names.length}} 
+  reamaining : {{list.unusedNames.length }}/ {{list.names.length}}| USing: {{currentObj.listName}}
   <li v-for="name in list.unusedNames">{{name}}</li></ul>
 </div>
-<p class="empty-list-alert" v-show="lists.length == 0">No lists available, create a new list <RouterLink class="link" to="/newList"> here</RouterLink></p> 
+
 </div>
-<button @click="studentSelector">Pick someone</button>
+<button @click="studentSelector" class="picker-button">Pick someone</button>
 
 <h1 class="picked">{{pickedP}}</h1>
 <h2>reamaining : {{currentObj.unusedNames.length}}</h2>
@@ -57,11 +58,13 @@ export default {
   beforeMount() {
   
    if(this.currentObj.listName === null){ 
+ 
     this.currentObj.listName = this.lists[0].listName;
 this.currentObj.unusedNames = this.lists[0].unusedNames;
 this.currentObj.names = this.lists[0].names;
-this.currentObjIndex = 0;
-   }; 
+this.currentObjIndex = 0;}
+
+   
    
   }, 
 
@@ -159,6 +162,11 @@ button{
 button:hover{
   background: none;
   color: black;
+}
+.picker-button{
+  background:#59af9b ;
+  border-color: #59af9b;
+  color: white;
 }
 input{
   min-width: 50vw;

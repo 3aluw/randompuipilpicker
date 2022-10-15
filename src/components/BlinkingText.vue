@@ -1,5 +1,6 @@
 <template>
-    <p>Randomly chose a</p><span class="typed-text"></span><span class="cursor">&nbsp;</span>
+  
+    <p>Randomly chose <span class="typed-text"></span><span class="cursor">&nbsp;</span></p>
     </template>
     
     
@@ -8,12 +9,13 @@
     
     
     export default {
+
       name: 'BlinkingText',
      
       data(){
         return{
          
-          textArray: ["student","son","employee","sibling","person"],
+          textArray: ["a student","a son"," an employee","a sibling","a freind","a DUDE"],
           typingDelay : 200,
           erasingDelay : 100,
           newTextDelay : 2000,
@@ -23,7 +25,7 @@
         },
         mounted(){ 
           this.type()
-         if(textArray.length) setTimeout(this.type, this.newTextDelay + 250);
+         if(this.textArray.length) setTimeout(this.type, this.newTextDelay + 250);
         },
         methods:{
           type(){
@@ -68,18 +70,30 @@
     font-family: 'Montserrat', sans-serif;
 
   }
+  .cont{
+    position: relative;
+  }
   p{
-
+display: inline-block;
     font-size: 2rem;
   padding: 0.5rem;
   font-weight: bold;
   letter-spacing: 0.1rem;
+  
+  }
+ 
+  .typed-text{
+    color:#845EC2;
+    font-size: 2rem;
   }
   .cursor{
     display: inline-block;
   background-color: #ccc;
   margin-left: 0.1rem;
-  width: 3px;
+  width: 2px;
+  height: 2rem;
+
+    bottom:0;
   animation: blink 1s infinite;
   }
   @keyframes blink {
