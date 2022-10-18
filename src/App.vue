@@ -31,7 +31,9 @@ export default {
             this.lists = e;
         },
         deleter(e) {
-            e.forEach((e) => { this.lists.splice(e, 1); });
+            e.forEach((e) => { 
+              if(e===0 ){return}else{
+              this.lists.splice(e, 1); }});
         }
     },
     beforeMount() {

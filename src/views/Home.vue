@@ -2,7 +2,7 @@
 <p class="empty-list-alert" v-show="lists.length == 0">No lists available, create a new list <RouterLink class="link" to="/newList"> here</RouterLink></p> 
 
   <div class="lists-container" v-if ="currentObj">
-<div class="saved-list" v-for="(list, index) in lists" :key="list.listName" @click="listExtrcat(index)" :data-index=index> 
+<div class="saved-list" :class="{'click-prevent' : index ==0 &&  deleteMode}" v-for="(list, index) in lists" :key="list.listName" @click="listExtrcat(index)" :data-index=index> 
  {{list.listName}}
  <ul class="list-item-hover">
   reamaining : {{list.unusedNames.length }}/ {{list.names.length}}| USing: {{currentObj.listName}}
@@ -80,10 +80,11 @@ this.currentObj.names = [...this.lists[index].names];
 this.currentObjIndex = index;
      }
      else{
-      event.target.classList.toggle("list-to-delete")
+      if(index!==0){ event.target.classList.toggle("list-to-delete")
       
       !this.listsToDelete.includes(index) ? this.listsToDelete.push(index): this.listsToDelete.splice(this.listsToDelete.indexOf(index) < 0 ? this.listsToDelete.length : this.listsToDelete.indexOf(index) ,1);
-     }
+    }
+      }
 },
  studentSelector(){
 
@@ -180,6 +181,7 @@ input{
   flex-wrap: wrap;
 }
 
+
 .saved-list{
   position: relative;
   margin: 0.5rem;
@@ -229,5 +231,9 @@ input{
 }
 .link{
   color: #00C9A7;
+}
+.click-prevent{
+  cursor: not-allowed;
+
 }
 </style>

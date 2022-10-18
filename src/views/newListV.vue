@@ -40,7 +40,7 @@ methods:{
     
       this.newList.unusedNames = [...this.newList.names];
       let newListCopy = JSON.parse(JSON.stringify(this.newList))
-      console.log(newListCopy)
+    
     this.$emit("new-list", newListCopy);
   this.newList.names = this.newList.listName = "";
   
